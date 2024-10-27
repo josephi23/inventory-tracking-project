@@ -1,0 +1,83 @@
+# Step 1: Create a Product class
+class Product:
+    def __init__(self, product_id, name, price, quantity):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+    def update_quantity(self, quantity):
+        self.quantity += quantity
+
+    def __str__(self):
+        return f"ID: {self.product_id}, Name: {self.name}, Price: {self.price}, Quantity: {self.quantity}"
+
+# Step 2: Create an Inventory class
+class Inventory:
+    def __init__(self):
+        self.products = {}
+
+    def add_product(self, product):
+        if product.product_id in self.products:
+            print(f"Product {product.product_id} already exists. Updating quantity.")
+            self.products[product.product_id].update_quantity(product.quantity)
+        else:
+            self.products[product.product_id] = product
+            print(f"Product {product.name} added.")
+
+    def remove_product(self, product_id):
+        if product_id in self.products:
+            del self.products[product_id]
+            print(f"Product {product_id} removed.")
+        else:
+            print(f"Product {product_id} not found.")
+
+    def update_product_quantity(self, product_id, quantity):
+        if product_id in self.products:
+            self.products[product_id].update_quantity(quantity)
+            print(f"Product {product_id} quantity updated.")
+        else:
+            print(f"Product {product_id} not found.")
+
+    def display_inventory(self):
+        if not self.products:
+            print("Inventory is empty.")
+        else:
+            for product in self.products.values():
+                print(product)
+
+# Step 3: Create an instance of Inventory and manage stock
+def main():
+    inventory = Inventory()
+
+    # Adding products to inventory
+    product1 = Product(1, "Laptop", 1000, 10)
+    product2 = Product(2, "Mouse", 50, 100)
+    product3 = Product(3, "Keyboard", 75, 50)
+
+    inventory.add_product(product1)
+    inventory.add_product(product2)
+    inventory.add_product(product3)
+
+    # Display inventory
+    print("\nInventory:")
+    inventory.display_inventory()
+
+    # Update product quantity
+    print("\nUpdating quantity of product ID 2 (Mouse)...")
+    inventory.update_product_quantity(2, 20)
+
+    # Display inventory after update
+    print("\nInventory after update:")
+    inventory.display_inventory()
+
+    # Remove a product
+    print("\nRemoving product ID 3 (Keyboard)...")
+    inventory.remove_product(3)
+
+    # Display inventory after removal
+    print("\nInventory after removal:")
+    inventory.display_inventory()
+
+if __name__ == "__main__":
+    main()
